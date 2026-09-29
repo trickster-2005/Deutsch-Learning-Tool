@@ -1,0 +1,20 @@
+# data build
+build/.cache/
+build/.venv/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+build/curated/levels_custom.csv
+web/public/data/levels/custom.json
+
+# frontend
+node_modules/
+web/dist/
+
+# local tooling / OS
+.claude/
+.DS_Store
+Thumbs.db
+.env
+.env.*
