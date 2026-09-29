@@ -29,7 +29,7 @@ Explore how German words are built: type any German word — in any form — and
 - **Browse**: all families (sortable, with level mini-bars), words by affix (with separable vs inseparable comparisons for `um-`, `über-` …), formation patterns (`wohnen → Wohnung`, all umlaut/ablaut pairs), and compounds by part or by linking element.
 - **Bilingual interface**: English (default) and Traditional Chinese; German content is never translated.
 - **Dark mode** (follows the system, or choose in ⚙).
-- **Shareable URLs**: `#/family/f13038?focus=aufstehen&level=A1,A2&pos=VERB&mode=prune`.
+- **Shareable URLs**: `#/family/f13040?focus=aufstehen&level=A1,A2&pos=VERB&mode=prune`.
 
 ## How it works
 

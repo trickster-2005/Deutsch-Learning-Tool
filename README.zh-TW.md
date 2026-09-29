@@ -29,7 +29,7 @@
 - **瀏覽頁**：所有詞族（可排序，附等級分布迷你條）、依詞綴列出單字（`um-`、`über-` 等雙重前綴會並列可分與不可分的例子）、構詞規律（`wohnen → Wohnung`、所有變音／母音交替配對），以及依部件或連接成分查詢複合詞。
 - **雙語介面**：英文（預設）與繁體中文；德文內容一律不翻譯。
 - **深色模式**（跟隨系統，或在 ⚙ 中切換）。
-- **可分享的網址**：`#/family/f13038?focus=aufstehen&level=A1,A2&pos=VERB&mode=prune`。
+- **可分享的網址**：`#/family/f13040?focus=aufstehen&level=A1,A2&pos=VERB&mode=prune`。
 
 ## 運作原理
 
