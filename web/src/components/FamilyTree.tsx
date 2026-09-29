@@ -172,16 +172,38 @@ export function FamilyTree(props: TreeViewProps) {
     [layout],
   );
 
-  // initial view: centre the focused word, otherwise fit when small or show the root
+  /**
+   * Initial view: the tree's top-left corner sits at the top-left of the canvas
+   * (just below the family title) at 100 %. If the focused word would be off
+   * screen, shift only as far as needed to show it — no centring.
+   */
+  const alignTopLeft = useCallback(
+    (keepVisible: string | null) => {
+      const svg = svgRef.current;
+      const z = zoomRef.current;
+      if (!svg || !z) return;
+      const { width, height } = svg.getBoundingClientRect();
+      const b = layout.bounds;
+      let tx = 24 - b.minX;
+      let ty = 12 - b.minY;
+      const f = keepVisible ? layout.byId.get(keepVisible) : undefined;
+      if (f) {
+        const margin = 48;
+        if (f.x + f.w + tx > width - margin) tx = width - margin - (f.x + f.w);
+        if (f.y + NODE_H / 2 + ty > height - margin) ty = height - margin - (f.y + NODE_H / 2);
+      }
+      animateTo(svg, z, zoomIdentity.translate(tx, ty), 0);
+    },
+    [layout],
+  );
+
   const didInit = useRef<string | null>(null);
   useLayoutEffect(() => {
     const key = `${model.family.id}:${focusId}`;
     if (didInit.current === key) return;
     didInit.current = key;
-    if (focusId && layout.byId.has(focusId)) centerOn(focusId, false);
-    else if (layout.boxes.length <= 12) fit();
-    else centerOn(model.rootId, false);
-  }, [model, focusId, layout, centerOn, fit]);
+    alignTopLeft(focusId && layout.byId.has(focusId) ? focusId : null);
+  }, [model, focusId, layout, alignTopLeft]);
 
   // ------------------------------------------------------------- keyboard
   const order = useMemo(() => flattenVisible(visible).filter((v) => v.kind === 'word' || v.kind === 'more'), [visible]);
