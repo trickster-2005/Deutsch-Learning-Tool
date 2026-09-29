@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState, type FormEvent, type KeyboardEvent } from 'react';
+import { useEffect, useId, useRef, useState, type FormEvent, type KeyboardEvent, type PointerEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useI18n } from '../i18n/i18n';
 import { loadComplete, loadEntries, loadEntry, loadFolded, loadForms, type CompleteRow } from '../lib/data';
@@ -28,6 +28,7 @@ export function SearchBox({ big = false, autoFocus = false }: { big?: boolean; a
   const [result, setResult] = useState<SearchResult | null>(null);
   const [entries, setEntries] = useState<Record<string, LexEntry>>({});
   const [busy, setBusy] = useState(false);
+  const [charsOpen, setCharsOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
@@ -109,6 +110,9 @@ export function SearchBox({ big = false, autoFocus = false }: { big?: boolean; a
     }
   };
 
+  // keep the input (and the phone keyboard) focused while tapping helper buttons
+  const keepFocus = (e: PointerEvent<HTMLButtonElement>) => e.preventDefault();
+
   const insert = (c: string) => {
     const el = inputRef.current;
     const start = el?.selectionStart ?? q.length;
@@ -183,15 +187,38 @@ export function SearchBox({ big = false, autoFocus = false }: { big?: boolean; a
           onFocus={() => setOpen(true)}
           onKeyDown={onKey}
         />
+        {/* wide screens: the four letters inline */}
         {SPECIAL.map((c) => (
-          <button key={c} type="button" className="btn char-btn" onClick={() => insert(c)} aria-label={t('search.insert', { c })}>
+          <button key={c} type="button" className="btn char-btn char-inline" onPointerDown={keepFocus} onClick={() => insert(c)} aria-label={t('search.insert', { c })}>
             {c}
           </button>
         ))}
+        {/* phones: one small toggle; the letters open in a row below the field */}
+        <button
+          type="button"
+          className="btn chars-toggle"
+          aria-expanded={charsOpen}
+          aria-controls={`${listId}-chars`}
+          aria-label={t('search.specialChars')}
+          title={t('search.specialChars')}
+          onPointerDown={keepFocus}
+          onClick={() => setCharsOpen((o) => !o)}
+        >
+          äöü
+        </button>
         <button type="submit" className="btn primary" aria-label={t('search.submit')}>
           <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" strokeWidth="1.8" /><path d="m11 11 3.5 3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
         </button>
       </form>
+      {charsOpen && (
+        <div className="char-strip" id={`${listId}-chars`} role="group" aria-label={t('search.specialChars')}>
+          {SPECIAL.map((c) => (
+            <button key={c} type="button" className="btn char-btn" onPointerDown={keepFocus} onClick={() => insert(c)} aria-label={t('search.insert', { c })}>
+              {c}
+            </button>
+          ))}
+        </div>
+      )}
 
       {showComplete && (
         <div className="popover">

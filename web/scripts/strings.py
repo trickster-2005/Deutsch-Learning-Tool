@@ -10,6 +10,7 @@ S = {
     "search.label": ("Search a German word", "搜尋德文單字"),
     "search.submit": ("Search", "搜尋"),
     "search.insert": ("Insert {c}", "插入 {c}"),
+    "search.specialChars": ("Special letters ä ö ü ß", "特殊字母 ä ö ü ß"),
     "search.didYouMean": ("Did you mean {word}?", "您是不是要找 {word}？"),
     "search.notFound": ("No match for \"{q}\". Try the dictionary form.", "找不到「{q}」。試試原形。"),
     "search.scriptHint": ("Type in German using Latin letters.", "請用拉丁字母輸入德文。"),

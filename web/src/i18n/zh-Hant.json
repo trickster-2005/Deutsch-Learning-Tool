@@ -5,6 +5,7 @@
  "search.label": "搜尋德文單字",
  "search.submit": "搜尋",
  "search.insert": "插入 {c}",
+ "search.specialChars": "特殊字母 ä ö ü ß",
  "search.didYouMean": "您是不是要找 {word}？",
  "search.notFound": "找不到「{q}」。試試原形。",
  "search.scriptHint": "請用拉丁字母輸入德文。",

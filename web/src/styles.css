@@ -436,3 +436,14 @@ footer.site { border-top: 1px solid var(--line); padding: 16px; font-size: var(-
 .dict-links { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
 .dict-links a { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; text-decoration: none; min-height: 28px; }
 .dict-links a:hover { text-decoration: underline; }
+
+/* special letters: inline on wide screens, a toggle + row below the field on phones */
+.chars-toggle { display: none; }
+.char-strip { display: none; }
+@media (max-width: 767px) {
+  .char-inline { display: none; }
+  .chars-toggle { display: inline-flex; justify-content: center; padding: 0 8px; font-family: var(--font-de); font-size: 0.95rem; letter-spacing: -0.02em; }
+  .chars-toggle[aria-expanded="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .char-strip { display: flex; gap: 6px; margin-top: 6px; }
+  .char-strip .char-btn { flex: 1 1 0; width: auto; min-height: 40px; font-size: 1.1rem; }
+}
