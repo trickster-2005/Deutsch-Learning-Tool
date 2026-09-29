@@ -23,6 +23,7 @@ Explore how German words are built: type any German word — in any form — and
 - **Morpheme colouring**: separable prefix, prefix, stem, suffix, ending and linking element each have a colour; separable verbs are shown as `auf|stehen`, compounds as `Arbeit·s·platz`.
 - **Compound panel**: compounds that contain a family member as first part (`Haus·tür`) or as head (`Kranken·haus`), with linking elements highlighted.
 - **Word details**: article, genitive and plural pattern for nouns; principal parts with auxiliary (`steht auf · stand auf · ist aufgestanden`), conjugation class, separability and reflexivity for verbs; comparative and superlative for adjectives; IPA, definitions, examples, topics, frequency. Same-spelling verbs such as `übersetzen` show both readings side by side.
+- **External dictionaries**: every word links to Wiktionary, DWDS, Duden, LEO, Linguee and Forvo (pronunciation); in the Chinese interface to Chinese Wiktionary and LEO Chinese–German.
 - **Filters** (all shareable in the URL): CEFR level, part of speech, gender, plural pattern, conjugation, prefix type, auxiliary, reflexive, formation type, part-of-speech change, vowel change, affix, topic, frequency, uncertain splits. Non-matching words can be dimmed, hidden, or the matches shown as a list.
 - **My level**: words one level above yours get a bold outline and a "Next" tag; higher ones fade.
 - **Colour by** level, part of speech or noun gender.

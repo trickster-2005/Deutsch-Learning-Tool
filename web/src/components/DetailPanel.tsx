@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useI18n } from '../i18n/i18n';
 import { loadAffixes, loadEntries, loadEntry, loadTopics } from '../lib/data';
 import type { FamilyModel } from '../lib/family';
+import { dictionaryLinks } from '../lib/dictionaries';
 import { effectiveLevel } from '../lib/levels';
 import type { AffixRow, LexEntry, MorphType, SegPart } from '../lib/types';
 import { Article, Gloss, LevelBadge, PosTag, Stars, Word } from './Word';
@@ -251,6 +252,19 @@ export function DetailPanel({
           </ul>
         </>
       )}
+
+      <h3>{t('dict.title')}</h3>
+      <ul className="dict-links">
+        {dictionaryLinks(node.lemma, lang).map((d) => (
+          <li key={d.id}>
+            <a href={d.url} target="_blank" rel="noopener noreferrer" aria-label={`${d.name} – ${t(d.hint)} (${t('dict.newTab')})`}>
+              {d.name}
+              <svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2H2v8h8V7M7 1h4v4M11 1 5.5 6.5" fill="none" stroke="currentColor" strokeWidth="1.4" /></svg>
+            </a>
+            <span className="small muted"> {t(d.hint)}</span>
+          </li>
+        ))}
+      </ul>
 
       <h3>{t('detail.frequency')}</h3>
       <p><Stars n={node.stars} /></p>

@@ -8,6 +8,7 @@ import { foldUmlauts, normForm, shardKey } from './text';
 import { affixLookup, buildModel, candidateOf, matchedIds } from './family';
 import { wordTokens } from '../components/Word';
 import { FIT, fitTransform } from '../components/FamilyTree';
+import { dictionaryLinks } from './dictionaries';
 import type { Family } from './types';
 
 const cand = (over: Partial<Candidate>): Candidate => ({
@@ -183,5 +184,18 @@ describe('default tree view (fitTransform)', () => {
     const { k, y } = fitTransform(b, W, H, f);
     expect(k).toBe(FIT.minScale);
     expect(f.y * k + y).toBeLessThanOrEqual(H - FIT.padBottom - FIT.focusMargin + 0.001);
+  });
+});
+
+describe('dictionary links', () => {
+  it('encodes umlauts, ß and spaces and follows the UI language', () => {
+    const en = dictionaryLinks('Straße', 'en');
+    expect(en.map((d) => d.id)).toEqual(['wikt-en', 'wikt-de', 'dwds', 'duden', 'leo-en', 'linguee', 'forvo']);
+    expect(en[0].url).toBe('https://en.wiktionary.org/wiki/Stra%C3%9Fe#German');
+    expect(en.find((d) => d.id === 'dwds')!.url).toBe('https://www.dwds.de/wb/Stra%C3%9Fe');
+    const zh = dictionaryLinks('übersetzen', 'zh-Hant');
+    expect(zh[0].url).toBe('https://zh.wiktionary.org/wiki/%C3%BCbersetzen#%E5%BE%B7%E8%AA%9E');
+    expect(zh.some((d) => d.id === 'leo-zh') && !zh.some((d) => d.id === 'linguee')).toBe(true);
+    expect(dictionaryLinks('nach Hause', 'en')[1].url).toBe('https://de.wiktionary.org/wiki/nach_Hause');
   });
 });

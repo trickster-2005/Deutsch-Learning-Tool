@@ -83,6 +83,7 @@ Small decisions not fixed by the spec. One line each: decision — reason.
 - d3-transition is not used (not in the stack); zoom/focus animations use a 200 ms `requestAnimationFrame` interpolation and are skipped under `prefers-reduced-motion`.
 - A theme setting (system/light/dark) was added to the settings menu — dark mode is a listed feature and users need a way to override the OS preference.
 - The `lang=` URL parameter is also honoured when it appears in a link opened inside the app (hashchange) — spec: URL parameter wins.
+- External dictionary links (word card): Wiktionary in the UI language + German Wiktionary, DWDS, Duden, LEO (German–English or Chinese–German), Linguee (English UI only; it has no Chinese–German pair) and Forvo — established, free, word-addressable URLs; Duden uses its search URL because its entry slugs are not derivable from the lemma.
 - UI strings live in `web/scripts/strings.py`, which generates `en.json` and `zh-Hant.json` with identical keys.
 
 <!-- auto:start -->
