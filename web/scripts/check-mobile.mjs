@@ -55,6 +55,21 @@ for (const r of pick.values()) {
   if (!ok) failures++;
   console.log(`${ok ? 'OK  ' : 'FAIL'} ${r.k.padEnd(34)} panel ${res.panel.join('-')} scroll ${res.panelScroll}/${res.panelClient} doc ${res.docScroll}/${res.vw}${res.bad.length ? `\n     ${res.bad.join('\n     ')}` : ''}`);
 }
+// the "?" legend popover must stay on screen too
+{
+  const page = await ctx.newPage();
+  await page.goto(`${BASE}#/family/${rows.find((x) => x.k === 'stehen')?.f ?? rows[0].f}`);
+  await page.waitForSelector('.o-node');
+  await page.click('.family-head .rel > button');
+  const r = await page.evaluate(() => {
+    const b = document.querySelector('.help-pop').getBoundingClientRect();
+    return { l: b.left, r: b.right, bt: b.bottom, vw: document.documentElement.clientWidth, vh: innerHeight, doc: document.documentElement.scrollWidth };
+  });
+  const ok = r.l >= 0 && r.r <= r.vw && r.bt <= r.vh + 1 && r.doc <= r.vw;
+  if (!ok) failures++;
+  console.log(`${ok ? 'OK  ' : 'FAIL'} legend popover ${Math.round(r.l)}-${Math.round(r.r)} doc ${r.doc}/${r.vw}`);
+  await page.close();
+}
 await browser.close();
 console.log(failures ? `${failures} overflow(s)` : 'no overflow');
 process.exit(failures ? 1 : 0);

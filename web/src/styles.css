@@ -328,7 +328,7 @@ details.collapsible[open] > summary::before { transform: rotate(90deg); }
   .filters-drawer { position: fixed; inset: 0; width: auto; max-height: none; z-index: 60; }
   .filters-drawer.closed { display: none; }
   .detail-panel {
-    position: fixed; left: 0; right: 0; bottom: 0; top: auto; max-height: 72vh; z-index: 50; border-left: 0;
+    position: fixed; left: 0 !important; right: 0 !important; bottom: 0; top: auto; max-height: 72vh; z-index: 50; border-left: 0;
     border-top: 1px solid var(--line); box-shadow: var(--shadow-pop); border-radius: 10px 10px 0 0;
   }
   .tree-wrap { height: 60vh; }
@@ -422,3 +422,14 @@ footer.site { border-top: 1px solid var(--line); padding: 16px; font-size: var(-
   .topnav .seg-btn { padding: 4px 8px; }
 }
 .family-head h1 { min-width: 0; overflow-wrap: anywhere; }
+.help-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: -4px -6px 4px 0; }
+.help-head .card-title { margin: 0; }
+/* when the "?" button is on the left, open to the right of it */
+.help-pop.align-left { right: auto; left: 0; }
+/* phones: the "?" button sits on the left, so the legend opens as a bottom sheet */
+@media (max-width: 767px) {
+  .help-pop {
+    position: fixed; left: 0 !important; right: 0 !important; bottom: 0; top: auto; width: auto; max-width: none;
+    max-height: 75vh; overflow: auto; z-index: 70; border-radius: 10px 10px 0 0; padding: 12px 16px 20px;
+  }
+}

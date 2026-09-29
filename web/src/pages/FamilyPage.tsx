@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { useI18n, useTitle } from '../i18n/i18n';
 import { loadAffixes, loadFamily } from '../lib/data';
@@ -23,7 +23,14 @@ const isWide = () => typeof window !== 'undefined' && window.matchMedia('(min-wi
 function HelpButton() {
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
+  const [alignLeft, setAlignLeft] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  // open toward the side with room: when the head row wraps, "?" sits on the left
+  useLayoutEffect(() => {
+    if (!open || !ref.current) return;
+    const r = ref.current.getBoundingClientRect();
+    setAlignLeft(r.right < Math.min(320, window.innerWidth - 32) + 8);
+  }, [open]);
   useEffect(() => {
     if (!open) return;
     const onDown = (e: MouseEvent) => ref.current && !ref.current.contains(e.target as Node) && setOpen(false);
@@ -39,8 +46,11 @@ function HelpButton() {
     <div className="rel" ref={ref}>
       <button type="button" className="btn icon-btn" aria-label={t('help.open')} title={t('help.open')} aria-expanded={open} onClick={() => setOpen((o) => !o)}>?</button>
       {open && (
-        <div className="help-pop" role="dialog" aria-label={t('help.title')}>
-          <p className="card-title">{t('help.title')}</p>
+        <div className={`help-pop ${alignLeft ? 'align-left' : ''}`} role="dialog" aria-label={t('help.title')}>
+          <div className="help-head">
+            <p className="card-title">{t('help.title')}</p>
+            <button type="button" className="btn icon-btn ghost" onClick={() => setOpen(false)} aria-label={t('common.close')}>×</button>
+          </div>
           <Legend />
           <p className="small" style={{ marginBottom: 0 }}><Link to="/how-it-works">{t('help.more')}</Link></p>
         </div>
