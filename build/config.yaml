@@ -1,0 +1,24 @@
+# Build parameters (spec 7.3, 10.2). Edit and re-run pipeline.py.
+min_zipf: 3.0              # keep lemmas with summed-form Zipf >= this
+separable_boost: 2.5       # multiplier for separable verbs (split forms are uncountable)
+stars:                     # Zipf thresholds for 5..2 stars; below -> 1
+  5: 5.0
+  4: 4.5
+  3: 4.0
+  2: 3.5
+cefr_cutoffs:              # cumulative rank <= n (NOUN/VERB/ADJ/ADV only)
+  A1: 650
+  A2: 1300
+  B1: 2400
+  B2: 5000
+  C1: 10000
+  C2: 20000
+gloss_max_chars: 80
+example_max_chars: 120
+max_examples: 2
+max_senses: 2
+charsplit_min_score: 0.5
+charsplit_min_modifier_len: 3
+compound_panel_default: 12
+max_shard_file_mb: 50
+max_data_total_mb: 500

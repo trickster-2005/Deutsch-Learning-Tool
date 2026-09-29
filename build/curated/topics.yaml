@@ -1,0 +1,16 @@
+# Wiktionary category keywords -> fixed topics (spec 9.3)
+food:        {en: Food & drink,   zh: 飲食,   keywords: [food, beverage, drink, cooking, fruit, vegetable, meal, dish]}
+body:        {en: Body & health,  zh: 身體與健康, keywords: [anatomy, body, medicine, disease, health]}
+home:        {en: Home,           zh: 居家,   keywords: [furniture, household, building, room, home]}
+family:      {en: People & family, zh: 人與家庭, keywords: [family, kinship, people, occupation]}
+work:        {en: Work & money,   zh: 工作與金錢, keywords: [business, economics, finance, money, occupations, work]}
+education:   {en: Education,      zh: 教育,   keywords: [education, school, university, science]}
+travel:      {en: Travel & transport, zh: 旅行與交通, keywords: [transport, vehicle, travel, tourism, rail, aviation]}
+nature:      {en: Nature & weather, zh: 自然與天氣, keywords: [weather, nature, geography, plant, tree, flower]}
+animals:     {en: Animals,        zh: 動物,   keywords: [animal, mammal, bird, fish, insect]}
+time:        {en: Time,           zh: 時間,   keywords: [time, calendar, month, day, season]}
+clothing:    {en: Clothing,       zh: 服飾,   keywords: [clothing, garment, fashion]}
+emotions:    {en: Feelings,       zh: 情感,   keywords: [emotion, feeling]}
+sport:       {en: Sport & leisure, zh: 運動與休閒, keywords: [sport, game, music, hobby, leisure]}
+city:        {en: City & society, zh: 城市與社會, keywords: [city, law, politics, government, society]}
+colors:      {en: Colors & shapes, zh: 顏色與形狀, keywords: [color, colour, shape]}

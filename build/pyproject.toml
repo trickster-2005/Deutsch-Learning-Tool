@@ -1,0 +1,26 @@
+[project]
+name = "gwf-build"
+version = "0.1.0"
+description = "Offline data build for German Word Family Explorer"
+requires-python = ">=3.11"
+dependencies = [
+    "wordfreq",
+    "opencc",
+    "polars",
+    "requests",
+    "pyyaml",
+    "charsplit",
+]
+
+[dependency-groups]
+dev = ["pytest"]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+charsplit = { git = "https://github.com/dtuggener/CharSplit" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

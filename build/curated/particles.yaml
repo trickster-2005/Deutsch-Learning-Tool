@@ -1,0 +1,4 @@
+# Separable / inseparable / dual verb prefixes (spec 9.1)
+separable: [ab, an, auf, aus, bei, dar, ein, empor, fest, fort, her, heim, hin, los, mit, nach, vor, weg, weiter, zu, zurück, zusammen, herein, heraus, herum, hinein, hinaus]
+inseparable: [be, emp, ent, er, ge, miss, ver, zer]
+dual: [durch, hinter, über, um, unter, voll, wider, wieder]

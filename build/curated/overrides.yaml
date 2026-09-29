@@ -1,0 +1,14 @@
+# Manual corrections. Human data always wins (spec 5, 9.4).
+# segmentation: {lemma_key: [[{text, type}, ...], ...]}
+# separable: {lemma: separable|inseparable}
+# compound: {lemma: [part_lemma, ...]}
+# gloss_en / gloss_zh: {lemma_key: "text"}
+# unlink: [[parent_lemma, child_lemma], ...]   # cut a wrong derivation link
+# not_compound: [lemma, ...]
+segmentation: {}
+separable: {}
+compound: {}
+gloss_en: {}
+gloss_zh: {}
+unlink: []
+not_compound: []

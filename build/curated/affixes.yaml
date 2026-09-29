@@ -1,0 +1,67 @@
+# Affix meanings and derivation types (spec 9.2)
+prefixes:
+  # inseparable
+  - {affix: be-, kind: inseparable, meaning_en: "makes verbs transitive; to apply to", meaning_zh: "使動詞及物；施加於", examples: [beantworten, bearbeiten]}
+  - {affix: ver-, kind: inseparable, meaning_en: "change; away; wrongly; completion", meaning_zh: "改變；離開；做錯；完成", examples: [verkaufen, verschlafen]}
+  - {affix: er-, kind: inseparable, meaning_en: "achieve by doing; begin", meaning_zh: "透過動作達成；開始", examples: [erkennen, erarbeiten]}
+  - {affix: ent-, variants: [ent-, emp-], kind: inseparable, meaning_en: "away, removal, un-", meaning_zh: "離開、除去、反向", examples: [entdecken, empfinden]}
+  - {affix: zer-, kind: inseparable, meaning_en: "to pieces", meaning_zh: "成碎片、破壞", examples: [zerbrechen, zerreißen]}
+  - {affix: ge-, kind: inseparable, meaning_en: "collective; perfective (often lexicalized)", meaning_zh: "集合；完成（多已詞彙化）", examples: [gehören, Gebirge]}
+  - {affix: miss-, kind: inseparable, meaning_en: "wrongly, mis-", meaning_zh: "錯誤地", examples: [missverstehen, Missbrauch]}
+  # separable
+  - {affix: ab-, kind: separable, meaning_en: "off, away; down", meaning_zh: "離開、脫離；向下", examples: [abfahren, abnehmen]}
+  - {affix: an-, kind: separable, meaning_en: "on, at; start", meaning_zh: "接觸、朝向；開始", examples: [ankommen, anrufen, anfangen]}
+  - {affix: auf-, kind: separable, meaning_en: "up; open", meaning_zh: "向上；打開", examples: [aufstehen, aufmachen]}
+  - {affix: aus-, kind: separable, meaning_en: "out; off", meaning_zh: "向外；關掉", examples: [ausgehen, aussteigen]}
+  - {affix: bei-, kind: separable, meaning_en: "alongside, adding to", meaning_zh: "在旁、附加", examples: [beitragen]}
+  - {affix: ein-, kind: separable, meaning_en: "in, into", meaning_zh: "進入", examples: [einsteigen, einkaufen]}
+  - {affix: mit-, kind: separable, meaning_en: "along, together with", meaning_zh: "一起、隨同", examples: [mitkommen, mitbringen]}
+  - {affix: nach-, kind: separable, meaning_en: "after; re-, checking", meaning_zh: "在後；再次、查核", examples: [nachdenken, nachfragen]}
+  - {affix: vor-, kind: separable, meaning_en: "before, forward", meaning_zh: "在前、向前", examples: [vorstellen, vorbereiten]}
+  - {affix: weg-, kind: separable, meaning_en: "away", meaning_zh: "離開", examples: [weggehen]}
+  - {affix: zu-, kind: separable, meaning_en: "toward; closed", meaning_zh: "朝向；關上", examples: [zuhören, zumachen]}
+  - {affix: zurück-, kind: separable, meaning_en: "back", meaning_zh: "返回", examples: [zurückkommen]}
+  - {affix: zusammen-, kind: separable, meaning_en: "together", meaning_zh: "一起、合在一起", examples: [zusammenarbeiten]}
+  - {affix: her-, kind: separable, meaning_en: "toward the speaker", meaning_zh: "朝說話者而來", examples: [herkommen]}
+  - {affix: hin-, kind: separable, meaning_en: "away from the speaker", meaning_zh: "離說話者而去", examples: [hingehen]}
+  - {affix: los-, kind: separable, meaning_en: "off, set off", meaning_zh: "出發、開始", examples: [losgehen]}
+  - {affix: fest-, kind: separable, meaning_en: "fixed, firm", meaning_zh: "固定、牢固", examples: [festhalten]}
+  - {affix: fort-, kind: separable, meaning_en: "away; onward", meaning_zh: "離開；繼續", examples: [fortsetzen]}
+  - {affix: weiter-, kind: separable, meaning_en: "further, continue", meaning_zh: "繼續", examples: [weitermachen]}
+  # dual (separable or inseparable)
+  - {affix: durch-, kind: dual, meaning_en: "through", meaning_zh: "穿過、徹底", examples: [durchlesen, durchsuchen]}
+  - {affix: über-, kind: dual, meaning_en: "over, across; trans-", meaning_zh: "越過；轉換", examples: [übersetzen, überkochen]}
+  - {affix: um-, kind: dual, meaning_en: "around; change", meaning_zh: "環繞；改變", examples: [umsteigen, umarmen]}
+  - {affix: unter-, kind: dual, meaning_en: "under", meaning_zh: "在下方", examples: [unterschreiben, untergehen]}
+  - {affix: wieder-, kind: dual, meaning_en: "again; back", meaning_zh: "再次；回來", examples: [wiedersehen, wiederholen]}
+  - {affix: voll-, kind: dual, meaning_en: "fully, complete", meaning_zh: "完全、充滿", examples: [vollenden, volltanken]}
+  - {affix: hinter-, kind: dual, meaning_en: "behind", meaning_zh: "在後面", examples: [hinterlassen]}
+  - {affix: wider-, kind: dual, meaning_en: "against", meaning_zh: "反對、相對", examples: [widersprechen, widerspiegeln]}
+  # noun / adjective prefixes
+  - {affix: un-, kind: nominal, meaning_en: "not; bad", meaning_zh: "不、非；不好的", examples: [unmöglich, Unglück]}
+  - {affix: ur-, kind: nominal, meaning_en: "original, very old", meaning_zh: "原始的、非常古老的", examples: [uralt, Urgroßvater]}
+
+suffixes:
+  - {affix: -ung, input_pos: VERB, output_pos: NOUN, gender: femn, semantic_type: action_noun, meaning_en: "action or its result", meaning_zh: "動作或其結果", examples: [Übung, Wohnung, Lösung]}
+  - {affix: -er, input_pos: VERB, output_pos: NOUN, gender: masc, semantic_type: agent_noun, meaning_en: "person or tool that does it", meaning_zh: "做這件事的人或工具", examples: [Lehrer, Fahrer]}
+  - {affix: -in, input_pos: NOUN, output_pos: NOUN, gender: femn, semantic_type: feminine, meaning_en: "female counterpart", meaning_zh: "女性對應詞", examples: [Lehrerin, Ärztin]}
+  - {affix: -heit, input_pos: ADJ, output_pos: NOUN, gender: femn, semantic_type: quality_noun, meaning_en: "quality, state", meaning_zh: "性質、狀態", examples: [Freiheit, Gesundheit]}
+  - {affix: -keit, variants: [-keit, -igkeit], input_pos: ADJ, output_pos: NOUN, gender: femn, semantic_type: quality_noun, meaning_en: "quality, state", meaning_zh: "性質、狀態", examples: [Möglichkeit, Müdigkeit]}
+  - {affix: -schaft, input_pos: NOUN, output_pos: NOUN, gender: femn, semantic_type: collective_noun, meaning_en: "group; relationship; state", meaning_zh: "群體；關係；狀態", examples: [Freundschaft, Mannschaft]}
+  - {affix: -chen, input_pos: NOUN, output_pos: NOUN, gender: neut, semantic_type: diminutive, meaning_en: "small (diminutive), always das", meaning_zh: "小的……（指小，一律 das）", examples: [Häuschen, Mädchen]}
+  - {affix: -lein, input_pos: NOUN, output_pos: NOUN, gender: neut, semantic_type: diminutive, meaning_en: "small (diminutive), always das", meaning_zh: "小的……（指小，一律 das）", examples: [Büchlein]}
+  - {affix: -tum, input_pos: [NOUN, ADJ], output_pos: NOUN, gender: neut, semantic_type: quality_noun, meaning_en: "domain, state", meaning_zh: "領域、狀態", examples: [Reichtum, Eigentum]}
+  - {affix: -nis, input_pos: [VERB, ADJ], output_pos: NOUN, semantic_type: result_noun, meaning_en: "result, state", meaning_zh: "結果、狀態", examples: [Erlebnis, Erlaubnis]}
+  - {affix: -ling, input_pos: [VERB, NOUN, ADJ], output_pos: NOUN, gender: masc, semantic_type: person_noun, meaning_en: "person (often informal)", meaning_zh: "人（常帶口語色彩）", examples: [Lehrling, Liebling]}
+  - {affix: -ei, variants: [-ei, -erei], input_pos: [NOUN, VERB], output_pos: NOUN, gender: femn, semantic_type: place_noun, meaning_en: "place or activity", meaning_zh: "場所或活動", examples: [Bäckerei, Bücherei]}
+  - {affix: -lich, input_pos: [NOUN, VERB], output_pos: ADJ, semantic_type: relational_adj, meaning_en: "-ly, -ful, relating to", meaning_zh: "……的、具……性質的", examples: [freundlich, täglich]}
+  - {affix: -ig, input_pos: NOUN, output_pos: ADJ, semantic_type: relational_adj, meaning_en: "having, full of (-y)", meaning_zh: "具有……的", examples: [sonnig, lustig]}
+  - {affix: -isch, input_pos: NOUN, output_pos: ADJ, semantic_type: relational_adj, meaning_en: "-ish, -ic", meaning_zh: "……式的、……性的", examples: [kindisch, typisch]}
+  - {affix: -bar, input_pos: VERB, output_pos: ADJ, semantic_type: ability_adj, meaning_en: "-able", meaning_zh: "可被……的", examples: [essbar, machbar]}
+  - {affix: -los, input_pos: NOUN, output_pos: ADJ, semantic_type: privative_adj, meaning_en: "-less", meaning_zh: "沒有……的", examples: [arbeitslos, hoffnungslos]}
+  - {affix: -voll, input_pos: NOUN, output_pos: ADJ, semantic_type: relational_adj, meaning_en: "full of", meaning_zh: "充滿……的", examples: [hoffnungsvoll, wertvoll]}
+  - {affix: -sam, input_pos: [VERB, NOUN], output_pos: ADJ, semantic_type: relational_adj, meaning_en: "tending to", meaning_zh: "傾向於……的", examples: [sparsam]}
+  - {affix: -haft, input_pos: NOUN, output_pos: ADJ, semantic_type: relational_adj, meaning_en: "like, having the nature of", meaning_zh: "像……的、有……性質的", examples: [fehlerhaft, zauberhaft]}
+  - {affix: -en, variants: [-en, -ern], input_pos: NOUN, output_pos: ADJ, semantic_type: material_adj, meaning_en: "made of", meaning_zh: "由……製成的", examples: [golden, hölzern]}
+  - {affix: -ieren, input_pos: NOUN, output_pos: VERB, semantic_type: verbalizer, meaning_en: "verb from a (often foreign) noun", meaning_zh: "由（多為外來）名詞轉成動詞", examples: [telefonieren, fotografieren]}
+  - {affix: -el-, input_pos: VERB, output_pos: VERB, semantic_type: diminutive_verb, meaning_en: "lighter or repeated action", meaning_zh: "輕微或反覆的動作", examples: [lächeln]}
