@@ -299,7 +299,7 @@ details.collapsible[open] > summary::before { transform: rotate(90deg); }
 .detail .ipa { color: var(--ink-muted); font-size: var(--fs-md); }
 .card { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; margin: 8px 0; }
 .card-title { font-weight: 600; margin: 0 0 6px; font-size: var(--fs-sm); }
-.kv { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; margin: 0; }
+.kv { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 12px; margin: 0; }
 .kv dt { color: var(--ink-muted); font-size: var(--fs-sm); }
 .kv dd { margin: 0; }
 .pp { font-family: var(--font-de); font-size: var(--fs-lg); }
@@ -409,3 +409,16 @@ footer.site { border-top: 1px solid var(--line); padding: 16px; font-size: var(-
 .t-node { transition: opacity 200ms, transform 200ms; }
 .seg-btn { white-space: nowrap; }
 .btn[aria-pressed="true"] .muted { color: inherit; opacity: 0.85; }
+
+/* long German words may wrap (at morpheme boundaries first) instead of overflowing */
+.detail { overflow-wrap: anywhere; }
+.detail .word, .family-head .word, .o-node .word, .clist .word, .word-list .word, .example .word, .popover .word { white-space: normal; overflow-wrap: anywhere; }
+.o-node { min-width: 0; flex-wrap: wrap; }
+.o-row { min-width: 0; }
+.detail-panel { max-width: 100vw; }
+@media (max-width: 420px) {
+  .topnav { flex-wrap: wrap; justify-content: flex-end; gap: 2px; min-width: 0; }
+  .topnav a { padding: 6px 4px; font-size: 0.9rem; }
+  .topnav .seg-btn { padding: 4px 8px; }
+}
+.family-head h1 { min-width: 0; overflow-wrap: anywhere; }

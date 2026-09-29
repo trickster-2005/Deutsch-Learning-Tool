@@ -3,7 +3,7 @@ import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { useI18n, useTitle } from '../i18n/i18n';
 import { loadAffixes, loadFamily } from '../lib/data';
 import {
-  affixLookup, buildModel, defaultExpanded, matchedIds, nodeLevel, pruneKeep, visibleTree, type AffixLookup, type FamilyModel,
+  affixLookup, ancestors, buildModel, defaultExpanded, matchedIds, nodeLevel, pruneKeep, visibleTree, type AffixLookup, type FamilyModel,
 } from '../lib/family';
 import { isEmpty, parseFilters, parseMode, writeFilters, type Filters, type Mode } from '../lib/filters';
 import { levelIndex } from '../lib/levels';
@@ -125,9 +125,13 @@ export function FamilyPage() {
     if (!model) return null;
     let exp = expanded;
     if (keep) exp = new Set([...expanded, ...keep]);
-    // make sure the selected node's ancestors are open
-    return visibleTree(model, exp, showAll, keep);
-  }, [model, expanded, showAll, keep]);
+    const pinned = new Set<string>();
+    if (initialFocus) {
+      pinned.add(initialFocus);
+      for (const a of ancestors(model, initialFocus)) pinned.add(a);
+    }
+    return visibleTree(model, exp, showAll, keep, pinned);
+  }, [model, expanded, showAll, keep, initialFocus]);
 
   const rootNode = model?.byId.get(model.rootId);
   useTitle(rootNode ? rootNode.lemma : '');

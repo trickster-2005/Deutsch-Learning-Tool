@@ -7,6 +7,7 @@ import { searchWord, type SearchDeps } from './search';
 import { foldUmlauts, normForm, shardKey } from './text';
 import { affixLookup, buildModel, candidateOf, matchedIds } from './family';
 import { wordTokens } from '../components/Word';
+import { FIT, fitTransform } from '../components/FamilyTree';
 import type { Family } from './types';
 
 const cand = (over: Partial<Candidate>): Candidate => ({
@@ -159,5 +160,28 @@ describe('text', () => {
     expect(tk.map((t) => t.text)).toEqual(['auf', '|', 'steh', 'en']);
     const c = wordTokens([[['Arbeit', 'ROOT'], ['s', 'LINK']], [['platz', 'ROOT']]], 'Arbeit·s·platz');
     expect(c.map((t) => `${t.text}:${t.type}`)).toEqual(['Arbeit:ROOT', '·:SEP', 's:LINK', '·:SEP', 'platz:ROOT']);
+  });
+});
+
+describe('default tree view (fitTransform)', () => {
+  const W = 1000;
+  const H = 600;
+  it('scales a large tree down to fit, left-aligned and vertically centred', () => {
+    const b = { minX: -20, maxX: 1900, minY: -400, maxY: 400 };
+    const { k, x, y } = fitTransform(b, W, H, null);
+    expect(k).toBeCloseTo((W - 2 * FIT.padX) / (b.maxX - b.minX), 5);
+    expect(b.minX * k + x).toBeCloseTo(FIT.padX, 5); // left edge at the padding
+    const mid = ((b.minY + b.maxY) / 2) * k + y;
+    expect(mid).toBeCloseTo(FIT.padTop + (H - FIT.padTop - FIT.padBottom) / 2, 5); // vertically centred
+  });
+  it('enlarges a small tree only up to maxScale', () => {
+    expect(fitTransform({ minX: -20, maxX: 200, minY: -40, maxY: 40 }, W, H, null).k).toBe(FIT.maxScale);
+  });
+  it('keeps the focused word visible when the tree cannot fit at minScale', () => {
+    const b = { minX: -20, maxX: 800, minY: -3000, maxY: 3000 };
+    const f = { x: 300, y: 2900, w: 120 };
+    const { k, y } = fitTransform(b, W, H, f);
+    expect(k).toBe(FIT.minScale);
+    expect(f.y * k + y).toBeLessThanOrEqual(H - FIT.padBottom - FIT.focusMargin + 0.001);
   });
 });

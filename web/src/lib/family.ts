@@ -155,6 +155,7 @@ export const MAX_VISIBLE = 300;
  */
 export function visibleTree(
   m: FamilyModel, expanded: Set<string>, showAll: Set<string>, keep: Set<string> | null,
+  pinned: Set<string> = new Set(),
 ): VisibleNode {
   const build = (id: string, parentId: string | null, maxDepth: number, d: number): VisibleNode => {
     const all = (m.children.get(id) ?? []).filter((c) => !keep || keep.has(c));
@@ -164,7 +165,10 @@ export function visibleTree(
       node.collapsed = true;
       return node;
     }
-    const shown = showAll.has(id) || all.length <= MAX_CHILDREN ? all : all.slice(0, MAX_CHILDREN);
+    let shown = showAll.has(id) || all.length <= MAX_CHILDREN ? all : all.slice(0, MAX_CHILDREN);
+    // the focused word and its ancestors are never hidden behind "Show n more"
+    const extra = all.filter((c) => pinned.has(c) && !shown.includes(c));
+    if (extra.length) shown = all.filter((c) => shown.includes(c) || extra.includes(c));
     node.children = shown.map((c) => build(c, id, maxDepth, d + 1));
     if (shown.length < all.length) {
       node.children.push({ id: `${id}::more`, kind: 'more', hiddenCount: all.length - shown.length, parentId: id, children: [] });

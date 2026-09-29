@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import type { MorphType, SegPart } from '../lib/types';
 import { useI18n } from '../i18n/i18n';
 
@@ -46,13 +47,13 @@ export function Word({
   const tokens = wordTokens(seg, display);
   return (
     <span className={`word ${uncertain ? 'uncertain' : ''} ${className}`} lang={lang}>
-      {tokens.map((tk, i) =>
-        tk.type === 'SEP' ? (
-          <span key={i} className="sep">{tk.text}</span>
-        ) : (
-          <span key={i} className={`m-${tk.type}`}>{tk.text}</span>
-        ),
-      )}
+      {tokens.map((tk, i) => (
+        <Fragment key={i}>
+          {/* preferred line-break points where a long word may wrap (morpheme boundaries) */}
+          {i > 0 && <wbr />}
+          {tk.type === 'SEP' ? <span className="sep">{tk.text}</span> : <span className={`m-${tk.type}`}>{tk.text}</span>}
+        </Fragment>
+      ))}
     </span>
   );
 }

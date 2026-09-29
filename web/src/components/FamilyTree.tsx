@@ -63,6 +63,34 @@ function animateTo(svg: SVGSVGElement, z: ZoomBehavior<SVGSVGElement, unknown>, 
   requestAnimationFrame(step);
 }
 
+export interface Bounds { minX: number; maxX: number; minY: number; maxY: number }
+
+export const FIT = { padX: 24, padTop: 12, padBottom: 32, minScale: 0.35, maxScale: 1.2, focusMargin: 40 };
+
+/**
+ * Default canvas transform: scale so the whole tree fits the canvas
+ * (clamped to [minScale, maxScale]), left-aligned horizontally and centred
+ * vertically. When the tree is too big to fit at minScale, the focused word
+ * is kept inside the visible area.
+ */
+export function fitTransform(
+  b: Bounds, width: number, height: number, focus: { x: number; y: number; w: number } | null,
+): { k: number; x: number; y: number } {
+  const availW = width - 2 * FIT.padX;
+  const availH = height - FIT.padTop - FIT.padBottom;
+  const k = Math.max(FIT.minScale, Math.min(FIT.maxScale, availW / (b.maxX - b.minX), availH / (b.maxY - b.minY)));
+  let x = FIT.padX - b.minX * k;
+  let y = FIT.padTop + availH / 2 - ((b.minY + b.maxY) / 2) * k;
+  if (focus) {
+    const right = (focus.x + focus.w) * k + x;
+    if (right > width - FIT.focusMargin) x -= right - (width - FIT.focusMargin);
+    const fy = focus.y * k + y;
+    if (fy < FIT.padTop + FIT.focusMargin) y += FIT.padTop + FIT.focusMargin - fy;
+    if (fy > height - FIT.padBottom - FIT.focusMargin) y -= fy - (height - FIT.padBottom - FIT.focusMargin);
+  }
+  return { k, x, y };
+}
+
 export function edgeLabel(e: Edge | undefined, t: (k: string) => string): string {
   if (!e) return '';
   const aff = [...e.added_prefixes, ...e.added_suffixes].join(' + ');
@@ -133,7 +161,8 @@ export function FamilyTree(props: TreeViewProps) {
   }, [visible, model, t, levelSource, myLevel, fontsReady]);
 
   // ------------------------------------------------------------- zoom
-  useEffect(() => {
+  // layout effect so the zoom behaviour exists before the initial fit below
+  useLayoutEffect(() => {
     const svg = svgRef.current;
     if (!svg) return;
     const z = d3zoom<SVGSVGElement, unknown>()
@@ -146,17 +175,21 @@ export function FamilyTree(props: TreeViewProps) {
     };
   }, []);
 
-  const fit = useCallback(() => {
-    const svg = svgRef.current;
-    const z = zoomRef.current;
-    if (!svg || !z) return;
-    const { width, height } = svg.getBoundingClientRect();
-    const b = layout.bounds;
-    const k = Math.max(0.3, Math.min(1.1, 0.92 * Math.min(width / (b.maxX - b.minX), height / (b.maxY - b.minY))));
-    const tx = (width - (b.maxX - b.minX) * k) / 2 - b.minX * k;
-    const ty = (height - (b.maxY - b.minY) * k) / 2 - b.minY * k;
-    animateTo(svg, z, zoomIdentity.translate(tx, ty).scale(k));
-  }, [layout]);
+  /** Default view (and the "fit" button): see `fitTransform`. */
+  const fit = useCallback(
+    (keepVisible: string | null = null, animate = true): boolean => {
+      const svg = svgRef.current;
+      const z = zoomRef.current;
+      if (!svg || !z) return false;
+      const { width, height } = svg.getBoundingClientRect();
+      if (!width || !height) return false;
+      const f = keepVisible ? layout.byId.get(keepVisible) : undefined;
+      const { k, x, y } = fitTransform(layout.bounds, width, height, f ? { x: f.x, y: f.y, w: f.w } : null);
+      animateTo(svg, z, zoomIdentity.translate(x, y).scale(k), animate ? 200 : 0);
+      return true;
+    },
+    [layout],
+  );
 
   const centerOn = useCallback(
     (id: string, animate = true) => {
@@ -172,38 +205,13 @@ export function FamilyTree(props: TreeViewProps) {
     [layout],
   );
 
-  /**
-   * Initial view: the tree's top-left corner sits at the top-left of the canvas
-   * (just below the family title) at 100 %. If the focused word would be off
-   * screen, shift only as far as needed to show it — no centring.
-   */
-  const alignTopLeft = useCallback(
-    (keepVisible: string | null) => {
-      const svg = svgRef.current;
-      const z = zoomRef.current;
-      if (!svg || !z) return;
-      const { width, height } = svg.getBoundingClientRect();
-      const b = layout.bounds;
-      let tx = 24 - b.minX;
-      let ty = 12 - b.minY;
-      const f = keepVisible ? layout.byId.get(keepVisible) : undefined;
-      if (f) {
-        const margin = 48;
-        if (f.x + f.w + tx > width - margin) tx = width - margin - (f.x + f.w);
-        if (f.y + NODE_H / 2 + ty > height - margin) ty = height - margin - (f.y + NODE_H / 2);
-      }
-      animateTo(svg, z, zoomIdentity.translate(tx, ty), 0);
-    },
-    [layout],
-  );
-
+  // default view: fit the whole tree (again once web fonts have changed node widths)
   const didInit = useRef<string | null>(null);
   useLayoutEffect(() => {
-    const key = `${model.family.id}:${focusId}`;
+    const key = `${model.family.id}:${focusId}:${fontsReady}`;
     if (didInit.current === key) return;
-    didInit.current = key;
-    alignTopLeft(focusId && layout.byId.has(focusId) ? focusId : null);
-  }, [model, focusId, layout, alignTopLeft]);
+    if (fit(focusId && layout.byId.has(focusId) ? focusId : null, false)) didInit.current = key;
+  }, [model, focusId, layout, fit, fontsReady]);
 
   // ------------------------------------------------------------- keyboard
   const order = useMemo(() => flattenVisible(visible).filter((v) => v.kind === 'word' || v.kind === 'more'), [visible]);
@@ -271,7 +279,7 @@ export function FamilyTree(props: TreeViewProps) {
       <div className="tree-tools">
         <button type="button" className="btn icon-btn" onClick={() => zoomRef.current && svgRef.current && select(svgRef.current).call(zoomRef.current.scaleBy, 1.25)} aria-label={t('tree.zoomIn')} title={t('tree.zoomIn')}>+</button>
         <button type="button" className="btn icon-btn" onClick={() => zoomRef.current && svgRef.current && select(svgRef.current).call(zoomRef.current.scaleBy, 0.8)} aria-label={t('tree.zoomOut')} title={t('tree.zoomOut')}>−</button>
-        <button type="button" className="btn icon-btn" onClick={fit} aria-label={t('tree.reset')} title={t('tree.reset')}>
+        <button type="button" className="btn icon-btn" onClick={() => fit(selectedId)} aria-label={t('tree.reset')} title={t('tree.reset')}>
           <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M1 5V1h4M9 1h4v4M13 9v4H9M5 13H1V9" fill="none" stroke="currentColor" strokeWidth="1.6" /></svg>
         </button>
       </div>
